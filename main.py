@@ -1,3 +1,6 @@
+#!/usr/bin/python3
+
+
 import sys
 from stack import Stack
 import math
@@ -19,6 +22,8 @@ def div(a, b):
 def mod(a, b):
     return (b % a)
 
+def power(a, b):
+    return b ** a
 
 "UNARY OPERATORS"
 def unot(a):
@@ -33,6 +38,21 @@ def dec(a):
 def inc(a):
     return (a + 1)
 
+def root(a):
+    return math.sqrt(a)
+
+def square(a):
+    return a ** 2
+
+def log(a):
+    return math.log10(a)
+
+def uabs(a):
+    return math.fabs(a)
+
+def ln(a):
+    return math.log(a)
+
 
 binary_ops = {
             '+' :   add,
@@ -40,15 +60,25 @@ binary_ops = {
             '*' :   mul,
             '/' :   div,
             '%' :   mod,
-          }
+            '^' :   power
+            }
 
 unary_ops = {
-            'not':  unot,
-            '!' :   fact,
-            '--':   dec,
-            '++':   inc
-          }
+            'n'   : unot,
+            '!'   : fact,
+            '--'  : dec,
+            '++'  : inc,
+            'r'   : root,
+            's'   : square,
+            'l'   : log,
+            'a'   : uabs,
+            'ln'  : ln
+            }
 
+constants = {
+            'pi': math.pi,
+            'e' : math.e
+            }
 
 
 def calculate(line):
@@ -66,11 +96,13 @@ def calculate(line):
         elif token in unary_ops:
             a = stack.pop()
             stack.push(unary_ops[token](a))
+        elif token in constants:
+            stack.push(constants[token])
         else:
             try:
                 stack.push(float(token))
             except ValueError:
-                exit("Bad token: {}".format(token))
+                return "Bad token: {}".format(token)
 
 
     if len(stack) != 1:
