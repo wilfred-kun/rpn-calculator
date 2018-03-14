@@ -14,6 +14,8 @@ def mul(a, b):
     return (b * a)
 
 def div(a, b):
+    if a == 0:
+        return 1   
     return (b / a)
 
 def mod(a, b):
@@ -89,7 +91,10 @@ def calculate(line):
         if token in binary_ops:
             a = stack.pop()
             b = stack.pop()
-            stack.push(binary_ops[token](a, b))
+            val = binary_ops[token](a, b)
+            if val == 1:
+                return "Cannot divide by zero"
+            stack.push(val)
         elif token in unary_ops:
             a = stack.pop()
             stack.push(unary_ops[token](a))
